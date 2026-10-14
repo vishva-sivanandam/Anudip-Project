@@ -1,4 +1,4 @@
-# MarriageWorkingManagementSystem
+# Smart Wedding Budget & Vendor Management System
 
 Console project using Java 21, Maven, Hibernate ORM 6.6, and PostgreSQL. It does not use Spring Boot or lambda expressions.
 
