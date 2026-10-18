@@ -23,9 +23,6 @@ public class WorkerInput {
         System.out.print("Work type (Catering/Photography/Hall/etc.): ");
         String workType = scanner.nextLine();
 
-        System.out.print("Worker base price: ");
-        double basePrice = Double.parseDouble(scanner.nextLine());
-
         System.out.print("Phone: ");
         String phone = scanner.nextLine();
 
@@ -48,7 +45,7 @@ public class WorkerInput {
         String unit = scanner.nextLine();
 
         Worker worker = new Worker(
-                name, workType, basePrice, phone, email);
+                name, workType, phone, email);
 
         ServiceOffering offering = new ServiceOffering(
                 category, serviceName, packageName,

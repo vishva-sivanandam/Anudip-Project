@@ -1,4 +1,3 @@
-
 package com.marriage.service;
 
 import com.marriage.dao.BookingDAO;
@@ -9,7 +8,9 @@ import com.marriage.model.ServiceOffering;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BookingService {
 
@@ -23,6 +24,7 @@ public class BookingService {
 
         if (customer.getName() == null
                 || customer.getName().trim().isEmpty()) {
+
             throw new IllegalArgumentException(
                     "Customer name is required."
             );
@@ -50,14 +52,38 @@ public class BookingService {
 
         List<BookingItem> items = new ArrayList<BookingItem>();
 
+        // Keep track of workers selected for this booking.
+        Set<Integer> selectedWorkerIds = new HashSet<Integer>();
+
         for (ServiceOffering offer : selectedOffers) {
+
+            Integer workerId = offer.getWorker().getWorkerId();
+
+            // Prevent selecting the same worker for multiple packages
+            // in this booking.
+            if (!selectedWorkerIds.add(workerId)) {
+                throw new IllegalArgumentException(
+                        "You selected more than one package from worker "
+                                + offer.getWorker().getName()
+                                + ". Please choose a different worker."
+                );
+            }
+
+            // Check whether this worker is booked by another
+            // confirmed booking on the same date.
+            if (bookingDAO.isWorkerBooked(workerId, date)) {
+                throw new IllegalArgumentException(
+                        "Worker "
+                                + offer.getWorker().getName()
+                                + " is already booked on "
+                                + date
+                                + ". Please choose another worker or date."
+                );
+            }
 
             total += offer.getCustomerPrice();
 
-            BookingItem item = new BookingItem(
-                    null,
-                    offer,
-                    offer.getCustomerPrice()
+            BookingItem item = new BookingItem(null, offer, offer.getCustomerPrice()
             );
 
             items.add(item);
@@ -70,7 +96,12 @@ public class BookingService {
             );
         }
 
-        Booking booking = new Booking(customer, date, budget, "CONFIRMED");
+        Booking booking = new Booking(
+                customer,
+                date,
+                budget,
+                "CONFIRMED"
+        );
 
         Integer bookingId = bookingDAO.saveBooking(
                 customer,
@@ -78,7 +109,9 @@ public class BookingService {
                 items
         );
 
-        System.out.println("Selected services total: Rs. " + total);
+        System.out.println(
+                "Selected services total: Rs. " + total
+        );
 
         return bookingId;
     }

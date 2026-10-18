@@ -37,8 +37,7 @@ public class ServiceOfferingDAO {
     // Display all service offerings, from low to high price
     public List<ServiceOffering> findAll() {
 
-        try (Session session =
-                     HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             return session.createQuery(
                     "FROM ServiceOffering ORDER BY customerPrice ASC",
@@ -73,7 +72,7 @@ public class ServiceOfferingDAO {
     }
 
     // Find a selected service within the customer's budget
-    public List<ServiceOffering> findByServiceAndBudget(
+    public List<ServiceOffering>    findByServiceAndBudget(
             String selectedService,
             double budget) {
 

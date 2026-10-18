@@ -17,7 +17,6 @@ public class Worker {
 
     private String name;
     private String workType;
-    private double basePrice;
     private String phone;
     private String email;
     private boolean active = true;
@@ -28,13 +27,11 @@ public class Worker {
     public Worker(
             String name,
             String workType,
-            double basePrice,
             String phone,
             String email) {
 
         this.name = name;
         this.workType = workType;
-        this.basePrice = basePrice;
         this.phone = phone;
         this.email = email;
         this.active = true;
@@ -60,13 +57,6 @@ public class Worker {
         this.workType = workType;
     }
 
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
-    }
 
     public String getPhone() {
         return phone;
