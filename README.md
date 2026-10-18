@@ -1,22 +1,14 @@
 # Smart Wedding Budget & Vendor Management System
 
-Console project using Java 21, Maven, Hibernate ORM 6.6, and PostgreSQL. It does not use Spring Boot or lambda expressions.
-
+A console-based application built using Java 21, Maven, Hibernate ORM 6.6, and PostgreSQL. 
 ## Setup
+
 1. Create a PostgreSQL database named `marriagedb`.
 2. Open `src/main/resources/hibernate.cfg.xml` and replace `YOUR_DATABASE_PASSWORD` with your local PostgreSQL password.
-3. Open the project as a Maven project in IntelliJ IDEA.
-4. Run `com.marriage.Main`.
+3. Open the project in IntelliJ IDEA as a Maven project.
+4. Run `com.marriage.Main` to start the application.
 
-Hibernate creates/updates the entity tables using `hibernate.hbm2ddl.auto=update`.
-
-## Package responsibilities
-- `model`: entity classes mapped to database tables.
-- `view`: console menu, input and output.
-- `service`: validation and business rules.
-- `dao`: Hibernate database operations.
-- `util`: shared Hibernate `SessionFactory`.
-- `Main`: application entry point.
+Hibernate creates or updates the entity tables automatically using `hibernate.hbm2ddl.auto=update`.
 
 ## Project Structure
 
@@ -55,35 +47,50 @@ MarriageWorkingManagementSystem/
             └── hibernate.cfg.xml
 ```
 
-### Package Responsibilities
+## Package Responsibilities
 
-- **Main.java:** Starts the application.
+- **Main.java:** Entry point that starts the application.
 - **model:** Contains entity classes mapped to database tables.
 - **view:** Handles the console menu, user input, and output.
 - **service:** Implements business rules and validation.
 - **dao:** Performs database operations using Hibernate.
 - **util:** Configures and provides the shared Hibernate `SessionFactory`.
-- **hibernate.cfg.xml:** Stores Hibernate and PostgreSQL configuration.
+- **hibernate.cfg.xml:** Contains Hibernate and PostgreSQL configuration.
 - **pom.xml:** Defines Maven dependencies and project settings.
-- **README.md:** Documents the project, setup, features, and execution instructions.
+- **README.md:** Documents the project structure, setup, features, and execution instructions.
 
-## Included Functions
+## Implemented Features
 
 - Add a worker and their first service offering.
 - Add additional service offerings to an existing worker.
 - Prevent duplicate service-package offerings for the same worker.
-- View all service offerings sorted from lowest to highest price.
+- Display service offerings sorted by price, from lowest to highest.
 - Search service offerings by service name or category.
-- Filter service offerings using a maximum budget (or a minimum and maximum budget, if both are implemented).
+- Filter service offerings by a maximum budget or a minimum and maximum price range, where supported.
 - Create a marriage booking with multiple selected service offerings.
-- Check the total booking cost against the customer's budget.
+- Prevent selecting multiple packages from the same worker in one booking.
+- Check worker availability for the selected marriage date against existing confirmed bookings.
+- Prevent booking the same worker for multiple confirmed bookings on the same date, subject to the application's availability-check limitations.
+- Calculate the combined cost of selected services and validate it against the customer's budget.
 - Save the customer, booking, and booking items within a database transaction.
 
-## Not Implemented Yet
+## Not Yet Implemented
 
-- Date-based worker availability and booking conflict checks.
 - Editing and deleting workers or service offerings.
 - Viewing booking history.
-- Saving a worker and their first service offering atomically in a single transaction.
+- Saving a worker and their first service offering atomically within a single database transaction.
 
-These features can be added in future versions.
+## Technologies Used
+
+- Java 21
+- Maven
+- Hibernate ORM 6.6
+- PostgreSQL
+- IntelliJ IDEA
+
+## Notes
+
+- The application uses Hibernate directly without Spring Boot.
+- The project uses traditional Java syntax without lambda expressions.
+- Database credentials must be configured locally and should not be committed to a public repository.
+- The `hibernate.hbm2ddl.auto=update` setting is intended for development; production databases should use a controlled schema migration strategy.
